@@ -1,4 +1,4 @@
-import {FormatTypeEnum} from '../document-viewer.component';
+import { FormatTypeEnum } from '../enums/FormatTypeEnum';
 
 export type FormatType =
   FormatTypeEnum.NONE
