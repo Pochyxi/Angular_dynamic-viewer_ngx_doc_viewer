@@ -34,6 +34,10 @@ export class DocumentViewerComponent implements OnChanges {
   filetypePdf: Filetype = FileTypeEnum.PDF;
   filetypeDocx: Filetype = FileTypeEnum.DOCX;
 
+  // prefissi per i tipi di file
+  base64PdfPrefix = 'data:application/pdf;base64,';
+  base64DocxPrefix = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,';
+
   constructor(private http: HttpClient) {
   }
 
@@ -70,7 +74,7 @@ export class DocumentViewerComponent implements OnChanges {
         if (this.docData.startsWith('http')) {
           this.fetchAsBase64(this.docData);
         } else {
-          this.docData = this.createBase64ObjectUrl(this.docData, this.filetypePdf) + '#toolbar=0';
+          this.docData = this.createBase64ObjectUrl(this.docData, this.filetypePdf);
         }
         break;
 
@@ -105,9 +109,9 @@ export class DocumentViewerComponent implements OnChanges {
 
     // Determina il prefisso in base al tipo di file
     if (fileType === FileTypeEnum.PDF) {
-      base64Prefix = 'data:application/pdf;base64,';
+      base64Prefix = this.base64PdfPrefix;
     } else if (fileType === FileTypeEnum.DOCX) {
-      base64Prefix = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,';
+      base64Prefix = this.base64DocxPrefix;
     }
 
     return base64Prefix + base64;
@@ -126,7 +130,7 @@ export class DocumentViewerComponent implements OnChanges {
         if (fileType === FileTypeEnum.PDF) {
 
           // inizializza doc data con il documento pdf
-          this.docData = this.createBase64ObjectUrl(base64String, this.filetypePdf) + '#toolbar=0';
+          this.docData = this.createBase64ObjectUrl(base64String, this.filetypePdf);
         } else if (fileType === FileTypeEnum.DOCX) {
 
           // inizializza doc data con il documento docx
